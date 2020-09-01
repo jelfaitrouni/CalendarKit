@@ -520,7 +520,6 @@ public final class TimelineView: UIView {
     return TimePeriod.init(beginning: beginningRange, end: endRange)
   }
 }
-<<<<<<< HEAD
 
 extension TimelineView: EventViewDelegate {
   public func didClickOnEditButton(_ eventView: EventView) {
@@ -531,6 +530,4 @@ extension TimelineView: EventViewDelegate {
     delegate?.timelineView(self, didTapDelete: eventView)
   }
 }
-=======
 #endif
->>>>>>> e6c8c8acefe6585da076d6b1b61976ad9f5a4b91
