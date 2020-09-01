@@ -1,3 +1,4 @@
+#if os(iOS)
 import UIKit
 import DateToolsSwift
 
@@ -34,7 +35,7 @@ open class DayViewController: UIViewController, EventDataSource, DayViewDelegate
   override open func viewDidLoad() {
     super.viewDidLoad()
     edgesForExtendedLayout = []
-    view.tintColor = UIColor.red
+    view.tintColor = SystemColors.systemRed
     dataSource = self
     delegate = self
     dayView.reloadData()
@@ -55,6 +56,12 @@ open class DayViewController: UIViewController, EventDataSource, DayViewDelegate
 
   open func configureDayViewLayoutForHorizontalSizeClass(_ sizeClass: UIUserInterfaceSizeClass) {
     dayView.transitionToHorizontalSizeClass(sizeClass)
+  }
+  
+  // MARK: - CalendarKit API
+  
+  open func move(to date: Date) {
+    dayView.move(to: date)
   }
 
   open func reloadData() {
@@ -117,3 +124,4 @@ open class DayViewController: UIViewController, EventDataSource, DayViewDelegate
     
     
 }
+#endif

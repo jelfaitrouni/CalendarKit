@@ -1,4 +1,6 @@
+#if os(iOS)
 import Foundation
+import UIKit
 
 public protocol EventDescriptor: AnyObject {
   var isTappable: Bool {get set}
@@ -16,3 +18,4 @@ public protocol EventDescriptor: AnyObject {
   func makeEditable() -> Self
   func commitEditing()
 }
+#endif
