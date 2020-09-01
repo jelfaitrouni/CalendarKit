@@ -1,5 +1,5 @@
+#if os(iOS)
 import UIKit
-import Neon
 import DateToolsSwift
 
 public protocol TimelineViewDelegate: AnyObject {
@@ -200,9 +200,9 @@ public final class TimelineView: UIView {
         return eventView
       }
     }
-    
-    for eventView in allDayView.eventViews {
-      let frame = eventView.convert(eventView.bounds, to: self)
+
+    for eventView in eventViews {
+      let frame = eventView.frame
       if frame.contains(point) {
         return eventView
       }
@@ -520,6 +520,7 @@ public final class TimelineView: UIView {
     return TimePeriod.init(beginning: beginningRange, end: endRange)
   }
 }
+<<<<<<< HEAD
 
 extension TimelineView: EventViewDelegate {
   public func didClickOnEditButton(_ eventView: EventView) {
@@ -530,3 +531,6 @@ extension TimelineView: EventViewDelegate {
     delegate?.timelineView(self, didTapDelete: eventView)
   }
 }
+=======
+#endif
+>>>>>>> e6c8c8acefe6585da076d6b1b61976ad9f5a4b91
