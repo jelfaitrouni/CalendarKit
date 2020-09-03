@@ -354,9 +354,9 @@ public final class TimelineView: UIView {
       let descriptor = attributes.descriptor
       let eventView = eventViews[idx]
       eventView.frame = attributes.frame
-        eventView.frame = CGRect(x: attributes.frame.minX + (descriptor.type == .request ? 100 : 0),
+        eventView.frame = CGRect(x: attributes.frame.minX + (descriptor.isFullWidth ? 0 : 100),
                                y: attributes.frame.minY,
-                               width: attributes.frame.width - style.eventGap - (descriptor.type == .request ? 115 : 0),
+                               width: attributes.frame.width - style.eventGap - (descriptor.isFullWidth ? 0 : 115),
                                height: attributes.frame.height - style.eventGap)
       eventView.updateWithDescriptor(event: descriptor)
     }

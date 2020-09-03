@@ -120,7 +120,7 @@ open class EventView: UIView {
     }
     drawsShadow = event.editedEvent != nil
     
-    if event.isEditable && event.startDate > Date() && (event.type == .availability || event.type == .fullRequest) {
+    if event.isEditable && event.startDate > Date() && event.isFullWidth {
       edit_btn.isHidden = false
       delete_btn.isHidden = false
     } else {

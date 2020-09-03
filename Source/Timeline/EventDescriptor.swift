@@ -5,7 +5,6 @@ import UIKit
 public enum EventType {
     case availability
     case request
-    case fullRequest
 }
 
 public protocol EventDescriptor: AnyObject {
@@ -26,4 +25,5 @@ public protocol EventDescriptor: AnyObject {
     func makeEditable() -> Self
     func commitEditing()
 }
+
 #endif
