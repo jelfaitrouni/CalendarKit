@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "delete.png",
+      "filename" : "stripes.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "delete@2x.png",
+      "filename" : "stripes@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "delete@3x.png",
+      "filename" : "stripes@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
