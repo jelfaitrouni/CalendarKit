@@ -4,12 +4,15 @@ import UIKit
 public protocol EventViewDelegate: AnyObject {
   func didClickOnEditButton(_ eventView: EventView)
   func didClickOnDeleteButton(_ eventView: EventView)
+  func didClickOnViewButton(_ eventView: EventView)
 }
 
 open class EventView: UIView {
   
   let buttonWidth: CGFloat = 30
-  let buttonPadding: CGFloat = 8
+  let buttonPadding: CGFloat = 15
+  let lightGold = UIColor(red: 223/255, green: 208/255, blue: 130/255, alpha: 1)
+  let gold = UIColor(red: 188/255, green: 163/255, blue: 75/255, alpha: 1)
   
   public var descriptor: EventDescriptor?
   public var color = UIColor.lightGray
@@ -18,12 +21,25 @@ open class EventView: UIView {
   public var contentHeight: CGFloat {
     return textView.frame.height
   }
+    
+    var gradientLayer: CAGradientLayer = {
+      let gradientLayer = CAGradientLayer()
+      gradientLayer.colors = [UIColor(red: 223/255, green: 208/255, blue: 130/255, alpha: 1).cgColor, UIColor(red: 188/255, green: 163/255, blue: 75/255, alpha: 1).cgColor]
+      gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+      gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+      gradientLayer.locations = [0, 1]
+      gradientLayer.cornerRadius = 20
+      return gradientLayer
+    }()
+  
+    
 
   public lazy var textView: UITextView = {
     let view = UITextView()
     view.isUserInteractionEnabled = false
     view.backgroundColor = .clear
     view.isScrollEnabled = false
+    view.contentInset = UIEdgeInsets.init(top: 15, left: 15, bottom: 15, right: 15)
     return view
   }()
 
@@ -33,6 +49,8 @@ open class EventView: UIView {
   
   var edit_btn: UIButton!
   var delete_btn: UIButton!
+  var view_btn: UIButton!
+  
 
   override public init(frame: CGRect) {
     super.init(frame: frame)
@@ -48,7 +66,7 @@ open class EventView: UIView {
     clipsToBounds = false
     color = tintColor
     addSubview(textView)
-    
+        
     for (idx, handle) in eventResizeHandles.enumerated() {
       handle.tag = idx
       addSubview(handle)
@@ -57,17 +75,32 @@ open class EventView: UIView {
     let bundle = Bundle(for: EventView.self)
     
     edit_btn = UIButton(frame: CGRect(x: 0, y: 0, width: buttonWidth, height: buttonWidth))
-    edit_btn.setImage(UIImage(named: "edit", in: bundle, compatibleWith: nil), for: .normal)
+    edit_btn.setImage(UIImage.init(named: "pencil", in: bundle, compatibleWith: nil), for: .normal)
+    edit_btn.backgroundColor = UIColor.systemGreen
+    edit_btn.layer.cornerRadius = buttonWidth / 2
     edit_btn.addTarget(self, action: #selector(editAction), for: .touchUpInside)
     edit_btn.isUserInteractionEnabled = true
     addSubview(edit_btn)
     
     delete_btn = UIButton(frame: CGRect(x: 0, y: 0, width: buttonWidth, height: buttonWidth))
     delete_btn.setImage(UIImage(named: "delete", in: bundle, compatibleWith: nil), for: .normal)
+    delete_btn.backgroundColor = UIColor.systemRed
+    delete_btn.layer.cornerRadius = buttonWidth / 2
     delete_btn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
     delete_btn.isUserInteractionEnabled = true
     addSubview(delete_btn)
     
+    view_btn = UIButton(frame: CGRect(x: 0, y: 0, width: buttonWidth, height: buttonWidth))
+    view_btn.setImage(UIImage(named: "eye", in: bundle, compatibleWith: nil), for: .normal)
+    view_btn.backgroundColor = UIColor(red: 188/255, green: 163/255, blue: 75/255, alpha: 1)
+    view_btn.layer.cornerRadius = buttonWidth / 2
+    view_btn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+    view_btn.isUserInteractionEnabled = true
+    addSubview(view_btn)
+    
+    layer.insertSublayer(gradientLayer, below: layer.sublayers?.first)
+    
+    layer.cornerRadius = 20
   }
 
   public func updateWithDescriptor(event: EventDescriptor) {
@@ -87,7 +120,7 @@ open class EventView: UIView {
     }
     drawsShadow = event.editedEvent != nil
     
-    if event.isEditable && (event.startDate > Date() || Date() < event.endDate) {
+    if event.isEditable && event.startDate > Date() && (event.type == .availability || event.type == .fullRequest) {
       edit_btn.isHidden = false
       delete_btn.isHidden = false
     } else {
@@ -95,7 +128,20 @@ open class EventView: UIView {
       delete_btn.isHidden = true
     }
    
+    view_btn.isHidden = event.type == .availability
     
+    let bundle = Bundle(for: EventView.self)
+    
+    if event.type == .availability {
+      backgroundColor = UIColor(patternImage: UIImage(named: "stripes", in: bundle, compatibleWith: nil)!)
+      layer.borderWidth = 1
+      layer.borderColor = UIColor(red: 37/255, green: 37/255, blue: 37/255, alpha: 1).cgColor
+      gradientLayer.isHidden = true
+    } else {
+      backgroundColor = UIColor.clear
+      layer.borderWidth = 0
+      gradientLayer.isHidden = false
+    }
     setNeedsDisplay()
     setNeedsLayout()
   }
@@ -139,30 +185,31 @@ open class EventView: UIView {
 //
 //  }
 
-  override open func draw(_ rect: CGRect) {
-    super.draw(rect)
-    guard let context = UIGraphicsGetCurrentContext() else {
-      return
-    }
-    context.interpolationQuality = .none
-    context.saveGState()
-    context.setStrokeColor(color.cgColor)
-    context.setLineWidth(3)
-    context.translateBy(x: 0, y: 0.5)
-    let x: CGFloat = 0
-    let y: CGFloat = 0
-    context.beginPath()
-    context.move(to: CGPoint(x: x, y: y))
-    context.addLine(to: CGPoint(x: x, y: (bounds).height))
-    context.strokePath()
-    context.restoreGState()
-  }
+//  override open func draw(_ rect: CGRect) {
+//    super.draw(rect)
+//    guard let context = UIGraphicsGetCurrentContext() else {
+//      return
+//    }
+//    context.interpolationQuality = .none
+//    context.saveGState()
+//    context.setStrokeColor(color.cgColor)
+//    context.setLineWidth(3)
+//    context.translateBy(x: 0, y: 0.5)
+//    let x: CGFloat = 0
+//    let y: CGFloat = 0
+//    context.beginPath()
+//    context.move(to: CGPoint(x: x, y: y))
+//    context.addLine(to: CGPoint(x: x, y: (bounds).height))
+//    context.strokePath()
+//    context.restoreGState()
+//  }
 
   private var drawsShadow = false
 
   override open func layoutSubviews() {
     super.layoutSubviews()
-    textView.frame = bounds
+    
+    textView.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding * 2))
     if frame.minY < 0 {
       var textFrame = textView.frame;
       textFrame.origin.y = frame.minY * -1;
@@ -186,9 +233,19 @@ open class EventView: UIView {
                         blur: 10)
     }
     
-    edit_btn.frame = CGRect(x: bounds.width - 2 * (buttonPadding + buttonWidth), y: buttonPadding, width: buttonWidth, height: buttonWidth)
-    delete_btn.frame = CGRect(x: bounds.width - (buttonPadding + buttonWidth), y: buttonPadding, width: buttonWidth, height: buttonWidth)
+    var textHeight: CGFloat
     
+    if let attributedText = textView.attributedText {
+        textHeight = attributedText.boundingRect(with: CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil).height
+    } else {
+        textHeight = NSString.init(string: textView.text).boundingRect(with: CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: textView.font as Any], context: nil).height
+    }
+        
+    edit_btn.frame = CGRect(x: buttonPadding, y: textHeight, width: buttonWidth, height: buttonWidth)
+    delete_btn.frame = CGRect(x: buttonPadding * 2 + buttonWidth, y: textHeight, width: buttonWidth, height: buttonWidth)
+    
+    view_btn.frame = CGRect(x: bounds.width - buttonPadding - buttonWidth, y: buttonPadding, width: buttonWidth, height: buttonWidth)
+    gradientLayer.frame = bounds
   }
 
   private func applySketchShadow(
@@ -218,6 +275,10 @@ open class EventView: UIView {
   
   @objc func deleteAction() {
     delegate?.didClickOnDeleteButton(self)
+  }
+  
+  @objc func viewAction() {
+    delegate?.didClickOnViewButton(self)
   }
 }
 #endif

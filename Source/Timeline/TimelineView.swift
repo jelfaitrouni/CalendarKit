@@ -9,6 +9,7 @@ public protocol TimelineViewDelegate: AnyObject {
   func timelineView(_ timelineView: TimelineView, didLongPress event: EventView)
   func timelineView(_ timelineView: TimelineView, didTapEdit event: EventView)
   func timelineView(_ timelineView: TimelineView, didTapDelete event: EventView)
+  func timelineView(_ timelineView: TimelineView, didTapView event: EventView)
 }
 
 public final class TimelineView: UIView {
@@ -353,9 +354,9 @@ public final class TimelineView: UIView {
       let descriptor = attributes.descriptor
       let eventView = eventViews[idx]
       eventView.frame = attributes.frame
-      eventView.frame = CGRect(x: attributes.frame.minX,
+        eventView.frame = CGRect(x: attributes.frame.minX + (descriptor.type == .request ? 100 : 0),
                                y: attributes.frame.minY,
-                               width: attributes.frame.width - style.eventGap,
+                               width: attributes.frame.width - style.eventGap - (descriptor.type == .request ? 115 : 0),
                                height: attributes.frame.height - style.eventGap)
       eventView.updateWithDescriptor(event: descriptor)
     }
@@ -529,5 +530,11 @@ extension TimelineView: EventViewDelegate {
   public func didClickOnDeleteButton(_ eventView: EventView) {
     delegate?.timelineView(self, didTapDelete: eventView)
   }
+    
+    public func didClickOnViewButton(_ eventView: EventView) {
+        delegate?.timelineView(self, didTapView: eventView)
+    }
+    
+    
 }
 #endif

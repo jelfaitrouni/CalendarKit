@@ -107,6 +107,10 @@ open class DayViewController: UIViewController, EventDataSource, DayViewDelegate
 
   open func dayView(dayView: DayView, didUpdate event: EventDescriptor) {
   }
+    
+    open func dayViewDidClickOnView(_ eventView: EventView) {
+        
+    }
   
   // MARK: - Editing
   

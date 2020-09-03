@@ -12,7 +12,7 @@ public protocol TimelinePagerViewDelegate: AnyObject {
   func timelinePager(timelinePager: TimelinePagerView, didLongPressTimelineAt date: Date)
   func timelinePagerDidClickOnEdit(_ eventView: EventView)
   func timelinePagerDidClickOnDelete(_ eventView: EventView)
-    
+  func timelinePagerDidClickOnView(_ eventView: EventView)
 
   // Editing
   func timelinePager(timelinePager: TimelinePagerView, didUpdate event: EventDescriptor)
@@ -500,6 +500,10 @@ public final class TimelinePagerView: UIView, UIGestureRecognizerDelegate, UIScr
   public func timelineView(_ timelineView: TimelineView, didTapDelete event: EventView) {
     delegate?.timelinePagerDidClickOnDelete(event)
   }
+    
+    public func timelineView(_ timelineView: TimelineView, didTapView event: EventView) {
+        delegate?.timelinePagerDidClickOnView(event)
+    }
 }
 
 extension TimelinePagerView: EventViewDelegate {
@@ -510,5 +514,8 @@ extension TimelinePagerView: EventViewDelegate {
   public func didClickOnDeleteButton(_ eventView: EventView) {
     delegate?.timelinePagerDidClickOnDelete(eventView)
   }
+    public func didClickOnViewButton(_ eventView: EventView) {
+      delegate?.timelinePagerDidClickOnView(eventView)
+    }
 }
 #endif

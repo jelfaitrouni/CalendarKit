@@ -2,6 +2,8 @@
 import UIKit
 
 public final class Event: EventDescriptor {
+    public var type = EventType.request
+    public var isFullWidth = false
   public var isTappable: Bool = false
   public var isEditable: Bool = false
   public var startDate = Date()
