@@ -94,7 +94,7 @@ open class EventView: UIView {
     view_btn.setImage(UIImage(named: "eye", in: bundle, compatibleWith: nil), for: .normal)
     view_btn.backgroundColor = UIColor(red: 188/255, green: 163/255, blue: 75/255, alpha: 1)
     view_btn.layer.cornerRadius = buttonWidth / 2
-    view_btn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+    view_btn.addTarget(self, action: #selector(viewAction), for: .touchUpInside)
     view_btn.isUserInteractionEnabled = true
     addSubview(view_btn)
     
