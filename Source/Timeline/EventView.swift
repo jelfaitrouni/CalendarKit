@@ -39,7 +39,7 @@ open class EventView: UIView {
     view.isUserInteractionEnabled = false
     view.backgroundColor = .clear
     view.isScrollEnabled = false
-    view.contentInset = UIEdgeInsets.init(top: 15, left: 15, bottom: 15, right: buttonWidth - buttonPadding * 2)
+    view.contentInset = UIEdgeInsets.init(top: 15, left: 15, bottom: 15, right: buttonWidth + buttonPadding * 2)
     return view
   }()
 
