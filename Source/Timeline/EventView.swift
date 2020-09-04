@@ -241,8 +241,8 @@ open class EventView: UIView {
         textHeight = NSString.init(string: textView.text).boundingRect(with: CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: textView.font as Any], context: nil).height
     }
         
-    edit_btn.frame = CGRect(x: buttonPadding, y: textHeight, width: buttonWidth, height: buttonWidth)
-    delete_btn.frame = CGRect(x: buttonPadding * 2 + buttonWidth, y: textHeight, width: buttonWidth, height: buttonWidth)
+    edit_btn.frame = CGRect(x: buttonPadding, y: textHeight + textView.textContainerInset.top, width: buttonWidth, height: buttonWidth)
+    delete_btn.frame = CGRect(x: buttonPadding * 2 + buttonWidth, y: textHeight + textView.textContainerInset.top, width: buttonWidth, height: buttonWidth)
     
     view_btn.frame = CGRect(x: bounds.width - buttonPadding - buttonWidth, y: buttonPadding, width: buttonWidth, height: buttonWidth)
     gradientLayer.frame = bounds
