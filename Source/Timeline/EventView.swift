@@ -209,7 +209,7 @@ open class EventView: UIView {
   override open func layoutSubviews() {
     super.layoutSubviews()
     
-    //textView.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding * 2))
+    textView.frame = bounds//.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding * 2))
     if frame.minY < 0 {
       var textFrame = textView.frame;
       textFrame.origin.y = frame.minY * -1;
