@@ -214,7 +214,8 @@ open class EventView: UIView {
     } else {
       textView.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding * 2))
     }
-    textView.text = textView.text
+    
+    textView.attributedText = textView.attributedText
     
     if frame.minY < 0 {
       var textFrame = textView.frame;
