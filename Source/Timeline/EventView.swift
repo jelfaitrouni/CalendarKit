@@ -39,8 +39,7 @@ open class EventView: UIView {
     view.isUserInteractionEnabled = false
     view.backgroundColor = .clear
     view.isScrollEnabled = false
-    view.contentInset = UIEdgeInsets.init(top: 15, left: 15, bottom: 15, right: 15)
-    view.textContainer.lineBreakMode = .byCharWrapping
+    view.contentInset = UIEdgeInsets.init(top: 15, left: 15, bottom: 0, right: 0)
     return view
   }()
 
@@ -213,9 +212,10 @@ open class EventView: UIView {
     if view_btn.isHidden {
       textView.frame = bounds
     } else {
-      textView.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding))
+      textView.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding * 2))
     }
-
+    textView.text = textView.text
+    
     if frame.minY < 0 {
       var textFrame = textView.frame;
       textFrame.origin.y = frame.minY * -1;
