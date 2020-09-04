@@ -209,7 +209,7 @@ open class EventView: UIView {
   override open func layoutSubviews() {
     super.layoutSubviews()
     
-    if !view_btn.isHidden {
+    if view_btn.isHidden {
       textView.frame = bounds
     } else {
       textView.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding * 2))
