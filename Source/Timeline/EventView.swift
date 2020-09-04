@@ -40,7 +40,7 @@ open class EventView: UIView {
     view.backgroundColor = .clear
     view.isScrollEnabled = false
     view.contentInset = UIEdgeInsets.init(top: 15, left: 15, bottom: 15, right: 15)
-    view.textContainer.lineBreakMode = .byWordWrapping
+    view.textContainer.lineBreakMode = .byCharWrapping
     return view
   }()
 
