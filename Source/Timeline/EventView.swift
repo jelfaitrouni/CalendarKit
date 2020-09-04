@@ -40,6 +40,7 @@ open class EventView: UIView {
     view.backgroundColor = .clear
     view.isScrollEnabled = false
     view.contentInset = UIEdgeInsets.init(top: 15, left: 15, bottom: 15, right: 15)
+    view.textContainer.lineBreakMode = .byWordWrapping
     return view
   }()
 
@@ -212,7 +213,7 @@ open class EventView: UIView {
     if view_btn.isHidden {
       textView.frame = bounds
     } else {
-      textView.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding * 2))
+      textView.frame = bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: buttonWidth + buttonPadding))
     }
 
     if frame.minY < 0 {
