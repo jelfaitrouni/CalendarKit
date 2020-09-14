@@ -393,6 +393,9 @@ public final class TimelineView: UIView {
     var overlappingEvents = [EventLayoutAttributes]()
 
     for event in sortedEvents {
+      if event.descriptor.type == .availability {
+        continue
+      }
       if overlappingEvents.isEmpty {
         overlappingEvents.append(event)
         continue
@@ -407,6 +410,7 @@ public final class TimelineView: UIView {
 
       if style.eventsWillOverlap {
         guard let earliestEvent = overlappingEvents.first?.descriptor.startDate else { continue }
+        
         let dateInterval = getDateInterval(date: earliestEvent)
         if event.descriptor.datePeriod.relation(to: dateInterval) == Relation.startInside {
           overlappingEvents.append(event)
