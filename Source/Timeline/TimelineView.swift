@@ -394,6 +394,7 @@ public final class TimelineView: UIView {
 
     for event in sortedEvents {
       if event.descriptor.type == .availability {
+        groupsOfEvents.append([event])
         continue
       }
       if overlappingEvents.isEmpty {
